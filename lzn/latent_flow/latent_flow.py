@@ -1,0 +1,11 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+from abc import ABC, abstractmethod
+from torch import nn
+
+
+class LatentFlow(ABC, nn.Module):
+    @abstractmethod
+    def forward(self, x):
+        pass
