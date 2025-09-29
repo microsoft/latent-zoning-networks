@@ -4,6 +4,7 @@
 **[[paper (arXiv)](https://arxiv.org/abs/2509.15591)]**
 **[[website](https://zinanlin.me/blogs/latent_zoning_networks.html)]**
 **[[code](https://github.com/microsoft/latent-zoning-networks)]**
+**[[models](https://huggingface.co/microsoft/latent-zoning-networks)]**
 
 
 **Authors:** [Zinan Lin](https://zinanlin.me), [Enshu Liu](https://scholar.google.com/citations?user=0LUhWzoAAAAJ), [Xuefei Ning](https://nics-effalg.com/ningxuefei/), [Junyi Zhu](https://junyizhu-ai.github.io/), [Wenyu Wang](#), [Sergey Yekhanin](https://www.microsoft.com/en-us/research/people/yekhanin/)
