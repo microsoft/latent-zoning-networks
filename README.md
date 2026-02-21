@@ -1,8 +1,8 @@
 # Latent Zoning Network: A Unified Principle for Generative Modeling, Representation Learning, and Classification
 
-**[[paper (NeurIPS 2025)](#)]**
+**[[paper (NeurIPS 2025)](https://openreview.net/forum?id=8KuKSKLott)]**
 **[[paper (arXiv)](https://arxiv.org/abs/2509.15591)]**
-**[[website](https://zinanlin.me/blogs/latent_zoning_networks.html)]**
+**[[website](https://zinanlin.me/blogs/latent_zoning_networks.html#post)]**
 **[[code](https://github.com/microsoft/latent-zoning-networks)]**
 **[[models](https://huggingface.co/microsoft/latent-zoning-networks)]**
 
@@ -18,6 +18,7 @@ At its core, LZN creates a shared Gaussian latent space that encodes information
 We demonstrate the promise of LZN in three increasingly complex scenarios: **(1) LZN can enhance existing models (image generation)**: When combined with the SoTA Rectified Flow model, LZN improves FID on CIFAR10 from 2.76 to 2.59—without modifying the training objective. **(2) LZN can solve tasks independently (representation learning)**: LZN can implement unsupervised representation learning without auxiliary loss functions, outperforming the seminal MoCo and SimCLR methods by 9.3% and 0.2%, respectively, on downstream linear classification on ImageNet. **(3) LZN can solve multiple tasks simultaneously (joint generation and classification)**: With image and label encoders/decoders, LZN performs both tasks jointly by design, improving FID and achieving SoTA classification accuracy on CIFAR10.
 
 ## News
+* `2/20/2026`: The models and code for all datasets and tasks are released!
 * `9/21/2025`: 🚀 The models and training/inference code for **image generation on AFHQ-Cat** and **image embedding trained on ImageNet** have been released! Due to the sensitive nature of the datasets, the remaining models and code are undergoing an internal review process and will be released at a later date. Stay tuned!
   * Code: https://github.com/microsoft/latent-zoning-networks
   * Models: https://huggingface.co/microsoft/latent-zoning-networks
@@ -79,6 +80,108 @@ where the checkpoint `lzn1/case_study_1_afhqcat/000003000-000060000.pt` can be d
 
 Simiarly to model training, the results (logs, metrics, generated images, etc.) will be saved in the folder `results/case_study_1_afhqcat`. 
 
+
+
+
+### Celeba-HQ
+
+#### Data Preparation
+
+Download and preprocess the [CelebA-HQ dataset](https://github.com/tkarras/progressive_growing_of_gans) and put the images in the following folder structure:
+
+```
+📦/tmp/data/CelebA-HQ-1024
+ ┣ 📜img00000000.png
+ ┣ 📜img00000001.png
+ ┗  ... (more images)
+```
+Note that the root folder ``/tmp/data/CelebA-HQ-1024`` can be moved to any locations, as long as it matches `config.data.params.root` in the configuration file [configs/lzn1/case_study_1_celebahq.py](configs/lzn1/case_study_1_celebahq.py).
+
+#### Model Training
+
+```
+python train.py --config=configs/lzn1/case_study_1_celebahq.py
+```
+
+The results (checkpoints, logs, metrics, generated images, etc.) will be saved in the folder `results/case_study_1_celebahq`. For examples, the generated images using the RK45 sampler in the Numpy format can be found in `results/case_study_1_celebahq/ema-rk45-random_samples_array/` and `results/case_study_1_celebahq/ema-rk45-random_samples_more_array`.
+
+#### Model Inference
+
+```
+python evaluate.py --config=configs/lzn1/case_study_1_celebahq.py --config.checkpoint.load_checkpoint=manual --config.checkpoint.path="<path to the checkpoint>"
+```
+where the checkpoint `lzn1/case_study_1_celebahq/000002991-000350000.pt` can be downloaded from [here](https://huggingface.co/microsoft/latent-zoning-networks/resolve/main/lzn1/case_study_1_celebahq/000002991-000350000.pt).
+
+Simiarly to model training, the results (logs, metrics, generated images, etc.) will be saved in the folder `results/case_study_1_celebahq`. 
+
+
+
+### LSUN Bedroom
+
+#### Data Preparation
+
+Download and preprocess the [LSUN Bedroom dataset](https://github.com/tkarras/progressive_growing_of_gans) and put the images in the following folder structure:
+
+```
+📦/tmp/data/LSUN
+ ┣ 📂bedroom_train
+ ┃ ┣ 📜img00000000.png
+ ┃ ┣ 📜img00000001.png
+ ┃ ┗  ... (more images)
+ ┗ 📂bedroom_val
+ ┃ ┣ 📜img00000000.png
+ ┃ ┣ 📜img00000001.png
+ ┃ ┗  ... (more images)
+```
+Note that the root folder ``/tmp/data/LSUN`` can be moved to any locations, as long as it matches `config.data.params.lsun_root` in the configuration file [configs/lzn1/case_study_1_lsunbedroom.py](configs/lzn1/case_study_1_lsunbedroom.py).
+
+#### Model Training
+
+```
+python train.py --config=configs/lzn1/case_study_1_lsunbedroom.py
+```
+
+The results (checkpoints, logs, metrics, generated images, etc.) will be saved in the folder `results/case_study_1_lsunbedroom`. For examples, the generated images using the RK45 sampler in the Numpy format can be found in `results/case_study_1_lsunbedroom/ema-rk45-random_samples_array/` and `results/case_study_1_lsunbedroom/ema-rk45-random_samples_more_array`.
+
+#### Model Inference
+
+```
+python evaluate.py --config=configs/lzn1/case_study_1_lsunbedroom.py --config.checkpoint.load_checkpoint=manual --config.checkpoint.path="<path to the checkpoint>"
+```
+where the checkpoint `lzn1/case_study_1_lsunbedroom/000000173-002050000.pt` can be downloaded from [here](https://huggingface.co/microsoft/latent-zoning-networks/resolve/main/lzn1/case_study_1_lsunbedroom/000000173-002050000.pt).
+
+Simiarly to model training, the results (logs, metrics, generated images, etc.) will be saved in the folder `results/case_study_1_lsunbedroom`. 
+
+
+
+### CIFAR10
+
+#### Data Preparation
+
+The data will be downloaded automatically by the scripts, so no manual data preparation is needed for CIFAR10.
+
+#### Model Training
+
+```
+python train.py --config=configs/lzn1/case_study_1_cifar10.py
+```
+
+The results (checkpoints, logs, metrics, generated images, etc.) will be saved in the folder `results/case_study_1_cifar10`. For examples, the generated images using the RK45 sampler in the Numpy format can be found in `results/case_study_1_cifar10/ema-rk45-random_samples_array/` and `results/case_study_1_cifar10/ema-rk45-random_samples_more_array`.
+
+#### Model Inference
+
+```
+python evaluate.py --config=configs/lzn1/case_study_1_cifar10.py --config.checkpoint.load_checkpoint=manual --config.checkpoint.path="<path to the checkpoint>"
+```
+where the checkpoint `lzn1/case_study_1_cifar10/000002000-000050000.pt` can be downloaded from [here](https://huggingface.co/microsoft/latent-zoning-networks/resolve/main/lzn1/case_study_1_cifar10/000002000-000050000.pt).
+
+Simiarly to model training, the results (logs, metrics, generated images, etc.) will be saved in the folder `results/case_study_1_cifar10`. 
+
+
+
+
+
+
 ## Unsupervised Representation Learning (Case Study 2)
 
 ### ImageNet
@@ -105,6 +208,39 @@ python evaluate.py --config=configs/lzn1/case_study_2.py --config.checkpoint.loa
 where the checkpoint `lzn1/case_study_2/000032051-005000000.pt` can be downloaded from [here](https://huggingface.co/microsoft/latent-zoning-networks/resolve/main/lzn1/case_study_2/000032051-005000000.pt).
 
 Simiarly to model training, the results (logs, image representations, linear classification accuracies, etc.) will be saved in the folder `results/case_study_2`. 
+
+
+
+
+
+
+## Conditional Generative Modeling and Classification (Case Study 3)
+
+
+### CIFAR10
+
+#### Data Preparation
+
+The data will be downloaded automatically by the scripts, so no manual data preparation is needed for CIFAR10.
+
+#### Model Training
+
+```
+python train.py --config=configs/lzn1/case_study_3.py
+```
+
+The results (checkpoints, logs, metrics, generated images, etc.) will be saved in the folder `results/case_study_3`. For examples, the generated images using the RK45 sampler in the Numpy format can be found in `results/case_study_3/ema-rk45-random_samples_array/` and `results/case_study_3/ema-rk45-random_samples_more_array`.
+
+#### Model Inference
+
+```
+python evaluate.py --config=configs/lzn1/case_study_3.py --config.checkpoint.load_checkpoint=manual --config.checkpoint.path="<path to the checkpoint>"
+```
+where the checkpoint `lzn1/case_study_3/000008000-000200000.pt` can be downloaded from [here](https://huggingface.co/microsoft/latent-zoning-networks/resolve/main/lzn1/case_study_3/000008000-000200000.pt).
+
+Simiarly to model training, the results (logs, metrics, generated images, etc.) will be saved in the folder `results/case_study_3`. 
+
+
 
 ## Citation
 

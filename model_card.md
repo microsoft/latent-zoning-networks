@@ -12,13 +12,21 @@ The list of the released models are:
 
 * Image embedding on ImageNet dataset
 
+* Image generation model on CIFAR10 dataset 
+
+* Image generation (conditional) and classification model on CIFAR10 dataset
+
+* Image generation model on LSUN Bedroom dataset 
+
+* Image generation model on Celeba-HQ dataset
+
 The models are trained from scratch.
 
 ### Key information
 
 * Developed by: Zinan Lin
 
-* Model type: Image generation models and image embedding models
+* Model type: Image generation models, image embedding models, and image classification models
 
 * Language(s): The models do NOT have text input or output capabilities
 
@@ -32,11 +40,15 @@ The models are trained from scratch.
 
 * Paper: https://arxiv.org/abs/2509.15591
 
+* Project page: https://zinanlin.me/blogs/latent_zoning_networks.html#post
+
 ## Uses
 
 ### Direct intended uses
 
-* Image generation models: We currently only release the unconditional image generation model for the AFHQ Cat dataset. Therefore, the model does not require any input such as class conditions. The model can generate new images similar to the training set.
+* Image generation models on AFHQ Cat, LSUN Bedroom, CelebA-HQ: These are unconditional image generation models. The models do not require any input such as class conditions. The model can generate new images similar to the training set. 
+
+* Image generation and classification model on CIFAR10: This model can work as either a conditional image generation model or an image classification model. For conditional image generation, the model can generate a random image based on the index of the desired class (1\~10). For image classification, the model can generate the class index (1\~10) for the input image.
 
 * Image embedding models: Given an image, the model can give the embedding (i.e., a vector of float numbers) of the image.
 
@@ -52,7 +64,7 @@ The quality of generated images is not perfect and might contain artifacts such 
 
 These models inherit any biases, errors, or omissions characteristic of their training data, which may be amplified by any AI-generated interpretations.
 
-We used two specific datasets to demonstrate our technique for training image generation and embedding models. If users/developers wish to test our technique using other datasets, it is their responsibility to source those datasets legally and ethically. This could include securing appropriate rights, ensuring consent for the use of images, and/or the anonymization of data prior to use. Users are reminded to be mindful of data privacy concerns and comply with relevant data protection regulations and organizational policies.
+We used five specific datasets to demonstrate our technique for training image generation and embedding models. If users/developers wish to test our technique using other datasets, it is their responsibility to source those datasets legally and ethically. This could include securing appropriate rights, ensuring consent for the use of images, and/or the anonymization of data prior to use. Users are reminded to be mindful of data privacy concerns and comply with relevant data protection regulations and organizational policies.
 
 ## How to get started with the model
 
@@ -62,15 +74,24 @@ Please see the GitHub repo for instructions: https://github.com/microsoft/latent
 
 ### Training data
 
-* Image generation: AFHQ Cat dataset https://github.com/clovaai/stargan-v2/blob/master/README.md#animal-faces-hq-dataset-afhq
+* Image generation:
+    * AFHQ Cat dataset https://github.com/clovaai/stargan-v2/blob/master/README.md#animal-faces-hq-dataset-afhq
+    * CIFAR10: https://www.cs.toronto.edu/~kriz/cifar.html 
+    * LSUN Bedroom dataset (photos of bedrooms): https://github.com/fyu/lsun
+    * CelebA-HQ dataset: https://github.com/tkarras/progressive_growing_of_gans
 
 * Image embedding: ImageNet dataset http://www.image-net.org/
+
+Some public image datasets, including datasets containing human or celebrity images, were used only for research benchmarking and evaluation. The models are not designed or trained to recreate or generate identifiable individuals, do not accept identity‑based inputs, and cannot be steered to produce specific people. Any human‑like images are generated from random noise and are not controllable or repeatable. These models are released as part of a research effort and are not intended for real-world application including image generation.
 
 ### Training procedure
 
 ### Preprocessing
 
-Please see the paper for details: https://arxiv.org/abs/2509.15591
+* Image generation and classification: Please see the paper for details: https://arxiv.org/abs/2509.15591 
+
+* Image embedding: Please see the paper for details: https://arxiv.org/abs/2509.15591 
+
 
 ### Training hyperparameters
 
@@ -86,13 +107,17 @@ Please see the paper for details: https://arxiv.org/abs/2509.15591
 
 #### Testing data
 
-* Image generation: AFHQ Cat dataset
+* Image generation: AFHQ Cat, CIFAR10, LSUN Bedroom, CelebA-HQ datasets
+
+* Image classification: CIFAR10 dataset
 
 * Image embedding: ImageNet dataset
 
 #### Metrics
 
 * Image generation: Image quality metrics including FID, Inception Score, Precision, Recall
+
+* Image classification: classification accuracy
 
 * Image embedding: Downstream image classification accuracy
 
@@ -101,6 +126,8 @@ Please see the paper for details: https://arxiv.org/abs/2509.15591
 * Image generation: The image quality of Latent Zoning Network models are better than the baselines. For example, on the AFHQ Cat dataset, latent zoning networks improve the FID, sFID, IS, Precision, Recall, and Reconstruction from 6.08, 49.60, 1.80, 0.86, 0.28, 17.92 to 5.68, 49.32, 1.96, 0.87, 0.30, 10.29, respectively.
 
 * Image embedding: The downstream image classification accuracy of Latent Zoning Network is on par with state-of-the-art approaches. For example, we train a linear classifier on top of the embedding and evaluate its accuracy on the ImageNet test set. The accuracy of latent zoning networks is 69.5%, beating the seminal MoCo method by 9.3% and SimCLR by 0.2%.
+
+* Image classification: The image classification accuracy on CIFAR10 dataset is 94.47%, which is close to the state-of-the-art 95.47%.
 
 ## Summary
 
